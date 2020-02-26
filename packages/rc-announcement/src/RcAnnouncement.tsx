@@ -1,4 +1,5 @@
-import * as React from 'react'
+import React, { useMemo, useLayoutEffect, useRef, useState } from 'react'
+import ReactDOM from 'react-dom'
 import { Message } from '@alicloud/console-components'
 import classnames from 'classnames'
 import Title from './Title'
@@ -7,6 +8,7 @@ import {
   extractSliderOptions,
   GetFusionConfig,
   IFusionConfigProps,
+  getMaxMessageHeight,
 } from './utils'
 import { SDots, SSlider, SWrapper, SMessageItem } from './styles'
 
@@ -93,7 +95,7 @@ export interface IRcAnnouncementProps {
   sliderOptions?: ISliderOptions
 }
 
-const RcMessage: React.FC<IRcAnnouncementProps & IFusionConfigProps> = ({
+const RcAnnouncement: React.FC<IRcAnnouncementProps & IFusionConfigProps> = ({
   dataSource = [],
   type = 'success',
   className,
@@ -102,7 +104,25 @@ const RcMessage: React.FC<IRcAnnouncementProps & IFusionConfigProps> = ({
   style,
   fusionConfig,
 }) => {
+  const refArray = [useRef(null), useRef(null), useRef(null)]
+
+  const [maxMessageHeight, setMaxMessageHeight] = useState(0)
+
+  const exactDataSource = useMemo(() => {
+    return dataSource.length > 3 ? dataSource.slice(0, 3) : dataSource
+  }, [dataSource])
+
+  const exactSize = useMemo(() => {
+    return exactDataSource.some(item => item.content) ? 'large' : 'medium'
+  }, [exactDataSource])
+
+  useLayoutEffect(() => {
+    const maxHeight = getMaxMessageHeight(refArray, exactDataSource.length)
+    setMaxMessageHeight(maxHeight)
+  }, [exactDataSource.length, refArray])
+
   const { prefix = 'next-' } = fusionConfig
+
   const renderMessageList = (
     data: IRcAnnouncementProps['dataSource']
   ): React.ReactNode[] =>
@@ -112,8 +132,9 @@ const RcMessage: React.FC<IRcAnnouncementProps & IFusionConfigProps> = ({
         className={classnames({
           'large-message': !!item.content,
           'medium-message': !item.content,
-          // "no-icon-title": type === "info"
         })}
+        style={{ height: maxMessageHeight ? `${maxMessageHeight}px` : 'auto' }}
+        ref={refArray[index]}
         // eslint-disable-next-line react/no-array-index-key
         key={`${item.title}-${index}`}
         title={<Title title={item.title} link={item.link} />}
@@ -126,13 +147,8 @@ const RcMessage: React.FC<IRcAnnouncementProps & IFusionConfigProps> = ({
       </SMessageItem>
     ))
 
-  const newDataSource =
-    dataSource.length > 3 ? dataSource.slice(0, 3) : dataSource
   return (
-    <SWrapper
-      prefix={prefix}
-      size={newDataSource.some(item => item.content) ? 'large' : 'medium'}
-    >
+    <SWrapper prefix={prefix} size={exactSize}>
       <Message
         type={type === 'info' ? 'help' : type}
         closeable={closeable}
@@ -141,17 +157,19 @@ const RcMessage: React.FC<IRcAnnouncementProps & IFusionConfigProps> = ({
       >
         <SSlider
           closeable={closeable}
-          total={newDataSource.length || 0}
+          total={exactDataSource.length || 0}
           type={type === 'info' ? 'help' : type}
           prefix={prefix}
           autoplay
           {...extractSliderOptions(sliderOptions || {})}
           dotsClass="dots-cust"
-          dotsDirection="hoz"
+          dotsDirection="ver"
+          slideDirection="ver"
+          size={exactSize}
           arrows={false}
           dotsRender={() => <SDots className="dots" />}
         >
-          {renderMessageList(newDataSource)}
+          {renderMessageList(exactDataSource)}
         </SSlider>
       </Message>
     </SWrapper>
@@ -161,5 +179,7 @@ const RcMessage: React.FC<IRcAnnouncementProps & IFusionConfigProps> = ({
 /**
  * @public
  */
-const defaultExp: React.FC<IRcAnnouncementProps> = GetFusionConfig(RcMessage)
+const defaultExp: React.FC<IRcAnnouncementProps> = GetFusionConfig(
+  RcAnnouncement
+)
 export default defaultExp

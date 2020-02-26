@@ -11,9 +11,8 @@ const calculatedWidth = (total: number, closeable: boolean): string => {
   if (closeable) {
     width += 24
   }
-  if (total > 1) {
+  if (total >= 1) {
     width += 16
-    width += total * 32
   }
   return `calc(100% - ${width}px)`
 }
@@ -22,8 +21,8 @@ const SliderFC: React.FC<SliderProps & {
   total: number
   closeable: boolean
   type: string
-  dotsRender: () => React.ReactNode
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+	dotsRender: () => React.ReactNode
+	size: 'large' | 'medium'
 }> = ({ total, closeable, type, ...restProps }) => <Slider {...restProps} />
 
 const SSlider = styled(SliderFC)`
@@ -33,26 +32,35 @@ const SSlider = styled(SliderFC)`
     position: static;
   }
 
-  .${getPrefix}slick-dots.hoz {
-    /* 设置normal样式 */
-    width: auto;
+  .${getPrefix}slick-dots.ver {
+    width: 4px;
     right: ${({ closeable }) => (closeable ? '40px' : '16px')};
     left: auto;
-    top: 50%;
-    height: 8px;
-    line-height: 8px;
-    transform: translateY(-50%);
-    bottom: 0;
-    /* 设置dot之间的距离 */
+		top: ${({ size }) => size === 'large' ? '10px' : '50%'};
+		transform: ${({ size }) => size === 'large' ? '0' : 'translateY(-50%)'};
+		bottom: auto;
     .${getPrefix}slick-dots-item {
-      margin-right: 0;
-      margin-left: 4px;
+			margin-bottom: 3px;
+			display: inline-block;
+			line-height: 4px;
+			height: 4px;
+			&.active {
+				height: 8px;
+			}
+			&:last-child {
+				margin-bottom: 0;
+			}
+			>span {
+				display: block;
+				line-height: 4px;
+				height: 4px;
+			}
     }
   }
   .dots-cust {
-    /* 当前active时候的样式 */
     .active ${SDots} {
       background: ${({ type }) => colorMap[type || 'success']};
+			height: 8px;
     }
   }
 `

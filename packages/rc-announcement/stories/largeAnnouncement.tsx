@@ -6,26 +6,26 @@ const dataSource = [
   {
     title: '标题标题',
     content:
-      '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内',
+      '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内',
   },
   {
     title: '标题标题2',
-    content: '内容内容内容内容内容内容内容内容2',
+    content: '内容内容内容内容内容内容内容内容',
   },
   {
     title: '标题标题3',
-    content: '内容内容内容内容内容内容内容内容3',
+    content: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内',
   },
 ]
 
 const LargeDemo: React.FC<{}> = () => (
   <Wrapper>
     <h2>强化消息提示</h2>
-    <RcAnnouncement closeable type="success" dataSource={dataSource} />
-    <RcAnnouncement closeable type="warning" dataSource={dataSource} />
-    <RcAnnouncement closeable type="error" dataSource={dataSource} />
-    <RcAnnouncement closeable type="info" dataSource={dataSource} />
-    <RcAnnouncement closeable type="notice" dataSource={dataSource} />
+    <RcAnnouncement sliderOptions={{  autoplay: false }} closeable type="success" dataSource={dataSource} />
+    <RcAnnouncement sliderOptions={{  autoplay: false }} closeable type="warning" dataSource={dataSource} />
+    <RcAnnouncement sliderOptions={{  autoplay: false }} closeable type="error" dataSource={dataSource} />
+    <RcAnnouncement sliderOptions={{  autoplay: false }} closeable type="info" dataSource={dataSource} />
+    <RcAnnouncement sliderOptions={{  autoplay: false }} closeable type="notice" dataSource={dataSource} />
   </Wrapper>
 )
 

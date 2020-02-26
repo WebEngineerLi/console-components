@@ -17,11 +17,11 @@ const dataSource = [
 const CarouselDemo: React.FC<{}> = () => (
   <Wrapper>
     <h2>可轮播的信息提示</h2>
-    <RcAnnouncement type="success" dataSource={dataSource} />
-    <RcAnnouncement type="warning" dataSource={dataSource} />
-    <RcAnnouncement type="error" dataSource={dataSource} />
-    <RcAnnouncement type="info" dataSource={dataSource} />
-    <RcAnnouncement type="notice" dataSource={dataSource} />
+    <RcAnnouncement sliderOptions={{  autoplay: false }} closeable type="success" dataSource={dataSource} />
+    <RcAnnouncement sliderOptions={{  autoplay: false }} closeable type="warning" dataSource={dataSource} />
+    <RcAnnouncement sliderOptions={{  autoplay: false }} closeable type="error" dataSource={dataSource} />
+    <RcAnnouncement sliderOptions={{  autoplay: false }} closeable type="info" dataSource={dataSource} />
+    <RcAnnouncement sliderOptions={{  autoplay: false }} closeable type="notice" dataSource={dataSource} />
   </Wrapper>
 )
 

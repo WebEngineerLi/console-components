@@ -1,10 +1,9 @@
 import styled from 'styled-components'
 
-const SDots = styled.span`
-  display: inline-block;
-  width: 28px;
-  height: 6px;
-  line-height: 6px;
+const SDots = styled.div`
+  width: 4px;
+  height: 4px;
+  line-height: 4px;
   background: #ccc;
 `
 
