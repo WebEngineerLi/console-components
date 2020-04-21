@@ -16,7 +16,7 @@ const Context = React.createContext<{ match: any; location: Location } | null>(
 const normalizeItems = (
   items: IRoutableItemDescriptor[] = []
 ): IItemDescriptor[] =>
-  items.map(item => {
+  items.map((item) => {
     const { to, href, linkProps = {}, disabled, render, items: subItems } = item
 
     if (subItems) {
@@ -35,7 +35,7 @@ const normalizeItems = (
           render: (renderItem: IRoutableItemDescriptor) => {
             return (
               <Context.Consumer>
-                {value => {
+                {(value) => {
                   if (!value)
                     throw new Error(`item is not rendered under RoutableMenu`)
                   return (
@@ -63,7 +63,7 @@ const normalizeItems = (
           ...item,
           render: (renderItem: IRoutableItemDescriptor) => (
             <Context.Consumer>
-              {value => {
+              {(value) => {
                 if (!value)
                   throw new Error(`item is not rendered under RoutableMenu`)
                 return (
@@ -254,6 +254,7 @@ const useRoutableMenu = (
     key: null,
     match: null,
   }
+
   const { key: matchedActiveKey, match } = matchResult
 
   // 3. 如果上述方法都不行，则直接使用用户最近点击的item
@@ -266,7 +267,7 @@ const useRoutableMenu = (
     activeKeyFromLocation,
     matchedActiveKey,
     lastClickedKey,
-  ].filter(value => !isNil(value))[0] as string | undefined
+  ].filter((value) => !isNil(value))[0] as string | undefined
 
   return [
     normalizedItems,
@@ -317,9 +318,9 @@ const RoutableMenu: React.FC<IRoutableMenuProps> = ({
     routableOnItemClick,
     providerValue,
   ] = useRoutableMenu({
-    items,
-    onItemClick,
-    location,
+    items, // 当前的Routerable菜单数据结构
+    onItemClick, // 菜单项点击的回调函数
+    location, // 当前的路由
     mapLocationToActiveKey,
   })
 
@@ -339,11 +340,12 @@ const RoutableMenu: React.FC<IRoutableMenuProps> = ({
         // 找出激活节点的所有父节点
         const parentItems = findParents(actualActiveKey, normalizedItems, [])
         if (Array.isArray(parentItems)) {
-          return parentItems.map(i => i.key)
+          return parentItems.map((i) => i.key)
         }
       }
       return undefined
     })()
+    // 每一次actualActiveKey改变的时候，都要展开其所有的父节点
     setOpenKeys(newOpenKeys)
   }, [actualActiveKey, normalizedItems])
 

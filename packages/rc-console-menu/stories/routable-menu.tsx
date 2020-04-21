@@ -67,11 +67,21 @@ const items: IRoutableItemDescriptor[] = [
   },
 ]
 
+const handleMapLocationToActiveKey = (location: any) => {
+  console.log('location:', location)
+
+  return location.pathname
+}
+
 const Example = () => {
   return (
     <FakeBrowser>
       <div>
-        <RoutableMenu header="阿里云控制台" items={items} />
+        <RoutableMenu
+          mapLocationToActiveKey={handleMapLocationToActiveKey}
+          header="阿里云控制台"
+          items={items}
+        />
         <p>
           Tips: 在地址栏输入<code>/daily/cn-beijing</code>，父节点会自动展开
         </p>
