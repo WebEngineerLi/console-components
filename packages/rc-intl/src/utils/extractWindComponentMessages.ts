@@ -14,8 +14,8 @@ export default function extractWindComponentMessages(
   const { namespace } = options
   const prefix = `${namespace}.`
 
-  Object.keys(rawMessages).forEach(key => {
-    if (key.indexOf(prefix) === 0) {
+  Object.keys(rawMessages).forEach((key) => {
+    if (key.startsWith(prefix)) {
       set(result, key.replace(prefix, ''), rawMessages[key])
     }
   })

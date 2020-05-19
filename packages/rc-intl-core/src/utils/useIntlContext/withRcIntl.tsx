@@ -38,6 +38,7 @@ const withRcIntl = ({
   withIntl((value, hocProps: { messages?: IMessages }) => {
     const keyPrefix = `${namespace}.${componentName}`
     const { messages: propsMessages = {} } = hocProps
+
     const {
       intl: globIntl = undefined,
       messages: globMessages = {},
@@ -45,6 +46,7 @@ const withRcIntl = ({
     } = value || {}
 
     const pickedMessages = getPrefixedMessages(globMessages, keyPrefix)
+
     const pickMessageSuccess = isPlainObject(pickedMessages)
     if (!pickMessageSuccess && warningIfNoMessageFromCtx) {
       warning(
@@ -60,6 +62,7 @@ const withRcIntl = ({
       ...(pickMessageSuccess ? (pickedMessages as IMessages) : {}),
       ...propsMessages,
     }
+
     const intl = createReactIntlFromCfg({
       locale,
       messages: componentMessages,

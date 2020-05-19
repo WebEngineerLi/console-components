@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import set from 'lodash/set'
 import { ConfigProvider } from '@alicloud/console-components'
 import { Provider } from '@alicloud/console-components-intl-context'
-import extractWindComponentMessages from '../extractWindComponentMessages'
 import {
   IWindIntlPublic,
   IIntlProviderProps,
   IMessages,
 } from '@alicloud/console-components-intl-core'
+import extractWindComponentMessages from '../extractWindComponentMessages'
 
 /**
  * Compatible `locale` to moment's locale format
@@ -21,7 +21,7 @@ const compatLocale = (locale: string) => (locale === 'zh' ? 'zh-cn' : locale)
 // TODO: 把normalize放在set的时候
 const normalize = (obj: IMessages) => {
   const result = {}
-  Object.keys(obj).forEach(key => {
+  Object.keys(obj).forEach((key) => {
     set(result, key, obj[key])
   })
 
@@ -34,7 +34,7 @@ const createIntlProvider = (intl: IWindIntlPublic) => {
   /**
    * provide value to the intl-context.
    */
-  const IntlProvider: React.FC<IIntlProviderProps> = props => {
+  const IntlProvider: React.FC<IIntlProviderProps> = (props) => {
     const {
       messages = intl.getMessages() || {},
       locale = intl.getLocale(),
@@ -62,6 +62,7 @@ const createIntlProvider = (intl: IWindIntlPublic) => {
         messages={normalize(messages)}
         extend={extendProviderValue}
       >
+        {/* 设置基础组件的多语言文案 */}
         <ConfigProvider {...configProviderProps} locale={baseComponentMessages}>
           <>{children}</>
         </ConfigProvider>
@@ -87,15 +88,16 @@ const createIntlProvider = (intl: IWindIntlPublic) => {
   >(
     WrappedComponent: React.ComponentType<WrappedComponentProps>
   ) => {
-    const HOC: React.FC<WrappedComponentProps> = props => {
+    const HOC: React.FC<WrappedComponentProps> = (props) => {
       return (
         <IntlProvider {...providerProps}>
           <WrappedComponent {...props} />
         </IntlProvider>
       )
     }
-    HOC.displayName = `withIntlProvider(${WrappedComponent.displayName ||
-      'UnknownComponent'})`
+    HOC.displayName = `withIntlProvider(${
+      WrappedComponent.displayName || 'UnknownComponent'
+    })`
     return HOC
   }
 

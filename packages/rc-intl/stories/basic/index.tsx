@@ -8,6 +8,7 @@ const messages = {
   'text.normal.with.non.runtime': 'This is a normal text with non-runtime.',
   'text.normal.with.chinese': '这是一段优美的文字',
   'text.with.html': 'This is <span style="color: red">{text}</span> text.',
+  '@wind_v2.base.Pagination.prev': 'Prev page',
 }
 
 // 设置语言文案

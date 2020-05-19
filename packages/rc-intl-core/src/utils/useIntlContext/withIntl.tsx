@@ -33,8 +33,9 @@ const withIntl = <
     const HOC: React.FC<Omit<
       WrappedComponentProps & ReceivedProps,
       keyof PropsToInject
-    >> = props => {
+    >> = (props) => {
       const hocProps = props
+
       return (
         <Consumer>
           {(value: IIntlCtxValue) => {
